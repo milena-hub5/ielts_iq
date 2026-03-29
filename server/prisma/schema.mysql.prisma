@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  name         String
+  email        String       @unique
+  targetBand   Float        @default(6.5)
+  currentLevel String       @default("B1")
+  savedWords   SavedWord[]
+  quizResults  QuizResult[]
+  messages     Message[]
+}
+
+model SavedWord {
+  id      Int    @id @default(autoincrement())
+  word    String
+  meaning String
+  level   String
+  status  String @default("learning")
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model QuizResult {
+  id        Int      @id @default(autoincrement())
+  score     Int
+  total     Int
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  role      String
+  content   String   @db.LongText
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "postinstall": "prisma generate --schema prisma/schema.mysql.prisma",
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "start:prod": "prisma db push --schema prisma/schema.mysql.prisma && node index.js",
+    "db:mysql:generate": "prisma generate --schema prisma/schema.mysql.prisma",
+    "db:mysql:push": "prisma db push --schema prisma/schema.mysql.prisma",
+    "db:mysql:studio": "prisma studio --schema prisma/schema.mysql.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "openai": "^6.33.0",
+    "prisma": "^6.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
