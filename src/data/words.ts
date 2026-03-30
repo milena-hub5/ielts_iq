@@ -700,6 +700,32 @@ const buildTopicWords = (topic: TopicId, seed: TopicSeed, offset: number) => {
   const adverbPhrases = adverbStarters.flatMap((adverb) =>
     baseVerbPhrases.map((verb) => `${adverb} ${verb}`),
   );
+  const pathwayNounPhrases = nounModifiers.slice(0, 22).flatMap((modifier) =>
+    nounPhrases.map((noun) => `${modifier} ${noun} pathway`),
+  );
+  const advancedAdjectivePhrases = nounModifiers
+    .slice(0, 24)
+    .flatMap((modifier) =>
+      adjectivePhrases.map((phrase) => `${modifier} ${phrase}`),
+    );
+  const processVerbPhrases = baseVerbPhrases.flatMap((verb) =>
+    adjectivePhrases.map((phrase) => `${verb} through ${phrase}`),
+  );
+  const adverbExtendedVerbPhrases = adverbStarters.flatMap((adverb) =>
+    extendedVerbPhrases
+      .slice(0, 120)
+      .map((verb) => `${adverb} ${verb}`),
+  );
+  const precisionVerbPhrases = adverbStarters
+    .slice(0, 3)
+    .flatMap((adverb) =>
+      baseVerbPhrases.map((verb) => `${adverb} ${verb} in practice`),
+    );
+  const reviewNounPhrases = seed.nounAnchors.flatMap((anchor) =>
+    seed.actionStems
+      .slice(0, 12)
+      .map((action) => `${anchor} ${action} review`),
+  );
 
   const groups: Array<{
     items: string[];
@@ -707,10 +733,16 @@ const buildTopicWords = (topic: TopicId, seed: TopicSeed, offset: number) => {
   }> = [
     { items: nounPhrases, partOfSpeech: "noun" },
     { items: modifiedNounPhrases, partOfSpeech: "noun" },
+    { items: pathwayNounPhrases, partOfSpeech: "noun" },
+    { items: reviewNounPhrases, partOfSpeech: "noun" },
     { items: baseVerbPhrases, partOfSpeech: "verb" },
     { items: extendedVerbPhrases, partOfSpeech: "verb" },
+    { items: processVerbPhrases, partOfSpeech: "verb" },
+    { items: adverbExtendedVerbPhrases, partOfSpeech: "verb" },
+    { items: precisionVerbPhrases, partOfSpeech: "verb" },
     { items: adjectivePhrases, partOfSpeech: "adjective" },
     { items: extendedAdjectivePhrases, partOfSpeech: "adjective" },
+    { items: advancedAdjectivePhrases, partOfSpeech: "adjective" },
     { items: adverbPhrases, partOfSpeech: "adverb" },
   ];
 
