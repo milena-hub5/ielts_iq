@@ -1,5 +1,20 @@
-const API_URL =
-  import.meta.env.VITE_API_URL?.replace(/\/$/, "") || "http://127.0.0.1:5050/api";
+const PROD_API_URL = "https://ieltsiq-production.up.railway.app/api";
+
+function resolveApiUrl() {
+  const configuredUrl = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
+
+  if (configuredUrl) {
+    return configuredUrl;
+  }
+
+  if (typeof window !== "undefined" && window.location.hostname.endsWith("vercel.app")) {
+    return PROD_API_URL;
+  }
+
+  return "http://127.0.0.1:5050/api";
+}
+
+const API_URL = resolveApiUrl();
 const USER_EMAIL_STORAGE_KEY = "ieltsiq_active_email";
 
 export function getActiveUserEmail() {
