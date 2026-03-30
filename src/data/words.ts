@@ -39,6 +39,18 @@ type TopicSeed = {
   collocationBank: string[];
 };
 
+type CoreWordInput = {
+  word: string;
+  meaning: string;
+  level: LevelId;
+  module: ModuleId;
+  partOfSpeech: WordItem["partOfSpeech"];
+  topic: TopicId;
+  example: string;
+  collocations: string[];
+  synonyms: string[];
+};
+
 export const levels: LevelId[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
 export const modules: ModuleId[] = [
   "Speaking",
@@ -155,6 +167,13 @@ const levelDescriptors: Record<LevelId, string> = {
   B2: "upper-intermediate",
   C1: "advanced",
   C2: "mastery-level",
+};
+
+const partOfSpeechDescriptors: Record<WordItem["partOfSpeech"], string> = {
+  noun: "a thing, idea, person, or process",
+  verb: "an action or process",
+  adjective: "a word that describes something",
+  adverb: "a word that describes how something happens",
 };
 
 const topicSeeds: Record<TopicId, TopicSeed> = {
@@ -640,6 +659,273 @@ const topicSeeds: Record<TopicId, TopicSeed> = {
   },
 };
 
+const coreWords: CoreWordInput[] = [
+  {
+    word: "education",
+    meaning: "the process of teaching and learning, especially at school or university",
+    level: "A2",
+    module: "General",
+    partOfSpeech: "noun",
+    topic: "education",
+    example: "Education plays a key role in improving career opportunities.",
+    collocations: ["higher education", "quality education"],
+    synonyms: ["learning", "schooling"],
+  },
+  {
+    word: "curriculum",
+    meaning: "the subjects and content taught in a school, college, or course",
+    level: "B2",
+    module: "Writing",
+    partOfSpeech: "noun",
+    topic: "education",
+    example: "Some people think the curriculum should include more practical skills.",
+    collocations: ["school curriculum", "national curriculum"],
+    synonyms: ["course content", "syllabus"],
+  },
+  {
+    word: "qualification",
+    meaning: "an exam result or certificate that shows a person has reached a required standard",
+    level: "B1",
+    module: "General",
+    partOfSpeech: "noun",
+    topic: "education",
+    example: "A university qualification can improve a person's job prospects.",
+    collocations: ["formal qualification", "professional qualification"],
+    synonyms: ["certificate", "credential"],
+  },
+  {
+    word: "tuition",
+    meaning: "teaching, especially paid teaching, or the money paid for education",
+    level: "B2",
+    module: "Reading",
+    partOfSpeech: "noun",
+    topic: "education",
+    example: "Tuition fees are a major concern for many students.",
+    collocations: ["tuition fees", "private tuition"],
+    synonyms: ["instruction", "teaching"],
+  },
+  {
+    word: "technology",
+    meaning: "machines, systems, and digital tools developed for practical use",
+    level: "A2",
+    module: "General",
+    partOfSpeech: "noun",
+    topic: "technology",
+    example: "Technology has changed the way people communicate and work.",
+    collocations: ["modern technology", "digital technology"],
+    synonyms: ["tech", "innovation"],
+  },
+  {
+    word: "automation",
+    meaning: "the use of machines or software to do work automatically",
+    level: "B2",
+    module: "Writing",
+    partOfSpeech: "noun",
+    topic: "technology",
+    example: "Automation may increase efficiency but reduce some job opportunities.",
+    collocations: ["industrial automation", "office automation"],
+    synonyms: ["mechanisation", "computerisation"],
+  },
+  {
+    word: "artificial intelligence",
+    meaning: "computer systems that can perform tasks that usually need human intelligence",
+    level: "C1",
+    module: "Reading",
+    partOfSpeech: "noun",
+    topic: "technology",
+    example: "Artificial intelligence is becoming more common in healthcare and education.",
+    collocations: ["artificial intelligence tools", "artificial intelligence systems"],
+    synonyms: ["AI", "machine intelligence"],
+  },
+  {
+    word: "privacy",
+    meaning: "the right to keep personal information and activities private",
+    level: "B2",
+    module: "Speaking",
+    partOfSpeech: "noun",
+    topic: "technology",
+    example: "Many people worry that social media companies do not protect privacy well enough.",
+    collocations: ["online privacy", "privacy concerns"],
+    synonyms: ["confidentiality", "personal security"],
+  },
+  {
+    word: "environment",
+    meaning: "the natural world, including air, water, land, and living things",
+    level: "A2",
+    module: "General",
+    partOfSpeech: "noun",
+    topic: "environment",
+    example: "Protecting the environment should be a global priority.",
+    collocations: ["natural environment", "protect the environment"],
+    synonyms: ["nature", "surroundings"],
+  },
+  {
+    word: "pollution",
+    meaning: "damage to air, water, or land caused by harmful substances or waste",
+    level: "B1",
+    module: "Writing",
+    partOfSpeech: "noun",
+    topic: "environment",
+    example: "Air pollution is one of the most serious problems in large cities.",
+    collocations: ["air pollution", "water pollution"],
+    synonyms: ["contamination", "environmental damage"],
+  },
+  {
+    word: "emissions",
+    meaning: "gases or other substances released into the air, especially by vehicles or factories",
+    level: "B2",
+    module: "Reading",
+    partOfSpeech: "noun",
+    topic: "environment",
+    example: "Many governments want to reduce carbon emissions over the next decade.",
+    collocations: ["carbon emissions", "vehicle emissions"],
+    synonyms: ["output", "discharge"],
+  },
+  {
+    word: "conservation",
+    meaning: "the protection of nature, wildlife, and natural resources",
+    level: "B2",
+    module: "Writing",
+    partOfSpeech: "noun",
+    topic: "environment",
+    example: "Wildlife conservation requires both funding and public awareness.",
+    collocations: ["nature conservation", "wildlife conservation"],
+    synonyms: ["protection", "preservation"],
+  },
+  {
+    word: "health",
+    meaning: "the condition of a person's body and mind",
+    level: "A1",
+    module: "General",
+    partOfSpeech: "noun",
+    topic: "health",
+    example: "Regular exercise is important for good health.",
+    collocations: ["public health", "mental health"],
+    synonyms: ["wellbeing", "fitness"],
+  },
+  {
+    word: "diet",
+    meaning: "the type of food that a person usually eats",
+    level: "A2",
+    module: "Speaking",
+    partOfSpeech: "noun",
+    topic: "health",
+    example: "A balanced diet can help people stay healthy.",
+    collocations: ["balanced diet", "healthy diet"],
+    synonyms: ["eating habits", "nutrition"],
+  },
+  {
+    word: "obesity",
+    meaning: "the condition of being extremely overweight in a way that harms health",
+    level: "B2",
+    module: "Writing",
+    partOfSpeech: "noun",
+    topic: "health",
+    example: "Governments should take action to reduce childhood obesity.",
+    collocations: ["childhood obesity", "obesity rate"],
+    synonyms: ["severe overweight", "excess weight"],
+  },
+  {
+    word: "treatment",
+    meaning: "medical care given to cure an illness or improve a condition",
+    level: "B1",
+    module: "Listening",
+    partOfSpeech: "noun",
+    topic: "health",
+    example: "Early treatment often leads to better results for patients.",
+    collocations: ["medical treatment", "effective treatment"],
+    synonyms: ["care", "therapy"],
+  },
+  {
+    word: "crime",
+    meaning: "an illegal action that can be punished by law",
+    level: "A2",
+    module: "General",
+    partOfSpeech: "noun",
+    topic: "crime",
+    example: "Some people believe poverty is one of the causes of crime.",
+    collocations: ["serious crime", "violent crime"],
+    synonyms: ["offence", "lawbreaking"],
+  },
+  {
+    word: "criminal",
+    meaning: "a person who has committed a crime",
+    level: "A2",
+    module: "Reading",
+    partOfSpeech: "noun",
+    topic: "crime",
+    example: "The police arrested the criminal soon after the robbery.",
+    collocations: ["career criminal", "convicted criminal"],
+    synonyms: ["offender", "lawbreaker"],
+  },
+  {
+    word: "punishment",
+    meaning: "a penalty given to someone who has done something wrong or illegal",
+    level: "B1",
+    module: "Writing",
+    partOfSpeech: "noun",
+    topic: "crime",
+    example: "Some people argue that punishment should focus on rehabilitation rather than fear.",
+    collocations: ["harsh punishment", "criminal punishment"],
+    synonyms: ["penalty", "sentence"],
+  },
+  {
+    word: "crime rate",
+    meaning: "the number of crimes committed in a place during a period of time",
+    level: "B2",
+    module: "Writing",
+    partOfSpeech: "noun",
+    topic: "crime",
+    example: "Better education and employment may help reduce the crime rate.",
+    collocations: ["high crime rate", "reduce the crime rate"],
+    synonyms: ["level of crime", "crime level"],
+  },
+  {
+    word: "work",
+    meaning: "the job or tasks that a person does to earn money",
+    level: "A1",
+    module: "General",
+    partOfSpeech: "noun",
+    topic: "work",
+    example: "Many adults spend a large part of their life at work.",
+    collocations: ["hard work", "office work"],
+    synonyms: ["job", "employment"],
+  },
+  {
+    word: "career",
+    meaning: "the long-term job path and professional progress of a person",
+    level: "A2",
+    module: "Speaking",
+    partOfSpeech: "noun",
+    topic: "work",
+    example: "Some people change careers several times during their lives.",
+    collocations: ["career path", "career development"],
+    synonyms: ["profession", "occupation"],
+  },
+  {
+    word: "salary",
+    meaning: "money that is paid regularly to someone for their work",
+    level: "A2",
+    module: "General",
+    partOfSpeech: "noun",
+    topic: "work",
+    example: "A high salary is important, but many people also value job satisfaction.",
+    collocations: ["monthly salary", "salary increase"],
+    synonyms: ["pay", "income"],
+  },
+  {
+    word: "promotion",
+    meaning: "a move to a higher position or rank in a job",
+    level: "B1",
+    module: "Speaking",
+    partOfSpeech: "noun",
+    topic: "work",
+    example: "Employees often work harder when they believe promotion is possible.",
+    collocations: ["job promotion", "promotion opportunities"],
+    synonyms: ["advancement", "rise"],
+  },
+];
+
 const combine = (left: string[], right: string[], joiner = " ") =>
   left.flatMap((first) => right.map((second) => `${first}${joiner}${second}`));
 
@@ -653,7 +939,7 @@ const createMeaning = (
   module: ModuleId,
   partOfSpeech: WordItem["partOfSpeech"],
 ) =>
-  `${levelDescriptors[level]} ${partOfSpeech} vocabulary for IELTS ${module.toLowerCase()} about ${seed.focus}.`;
+  `${levelDescriptors[level]} vocabulary for ${seed.label.toLowerCase()}; ${partOfSpeechDescriptors[partOfSpeech]}. Common in IELTS ${module.toLowerCase()} tasks.`;
 
 const createExample = (
   seed: TopicSeed,
@@ -774,12 +1060,24 @@ const buildTopicWords = (topic: TopicId, seed: TopicSeed, offset: number) => {
 
 let offset = 0;
 
-export const words: WordItem[] = (Object.entries(topicSeeds) as Array<
+const generatedWords: WordItem[] = (Object.entries(topicSeeds) as Array<
   [TopicId, TopicSeed]
 >).flatMap(([topic, seed]) => {
   const topicWords = buildTopicWords(topic, seed, offset);
   offset += topicWords.length;
   return topicWords;
 });
+
+const manualWords: WordItem[] = coreWords.map((item, index) => ({
+  id: index + 1,
+  ...item,
+}));
+
+const reindexedGeneratedWords = generatedWords.map((item, index) => ({
+  ...item,
+  id: manualWords.length + index + 1,
+}));
+
+export const words: WordItem[] = [...manualWords, ...reindexedGeneratedWords];
 
 export const totalWords = words.length;
