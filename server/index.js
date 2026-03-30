@@ -8,6 +8,7 @@ const app = express();
 const prisma = new PrismaClient();
 const OpenAI = require("openai");
 const PORT = Number(process.env.PORT) || 5050;
+const openAiApiKey = process.env.OPENAI_API_KEY;
 
 const allowedOrigins = [
   "http://localhost:8080",
@@ -15,9 +16,11 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = openAiApiKey
+  ? new OpenAI({
+      apiKey: openAiApiKey,
+    })
+  : null;
 
 app.use(
   cors({
@@ -441,6 +444,10 @@ Mode behavior:
 
 Keep answers natural and not too long.
       `.trim();
+
+      if (!openai) {
+        throw new Error("OPENAI_API_KEY is not configured");
+      }
 
       const aiResponse = await openai.responses.create({
         model: "gpt-5.4",
