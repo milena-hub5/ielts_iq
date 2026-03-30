@@ -38,6 +38,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [canSwitchExisting, setCanSwitchExisting] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: getActiveUserEmail(),
@@ -52,6 +53,7 @@ export default function Profile() {
   const loadProfile = async () => {
     try {
       setError("");
+      setCanSwitchExisting(false);
       const result = await getProfileData();
       setData(result);
       setForm({
@@ -76,12 +78,14 @@ export default function Profile() {
   const handleRegister = async () => {
     if (!form.name.trim() || !form.email.trim()) {
       setError("Name and email are required.");
+      setCanSwitchExisting(false);
       return;
     }
 
     try {
       setBusy(true);
       setError("");
+      setCanSwitchExisting(false);
       await registerUser({
         name: form.name.trim(),
         email: form.email.trim().toLowerCase(),
@@ -95,9 +99,18 @@ export default function Profile() {
       });
     } catch (error) {
       console.error("Register failed:", error);
-      setError(
-        "Could not create this profile. The email may already exist, or the backend may need a restart.",
-      );
+      const message = error instanceof Error ? error.message : "";
+
+      if (message.includes("409") || message.toLowerCase().includes("already exists")) {
+        setError("This email already exists. Switch to that account instead of registering again.");
+        setCanSwitchExisting(true);
+      } else if (message.toLowerCase().includes("failed to fetch")) {
+        setError("Could not reach the server. Check that the backend is live and try again.");
+        setCanSwitchExisting(false);
+      } else {
+        setError("Could not create this profile right now. Please try again in a moment.");
+        setCanSwitchExisting(false);
+      }
     } finally {
       setBusy(false);
     }
@@ -131,19 +144,27 @@ export default function Profile() {
   const handleSwitch = async () => {
     if (!form.email.trim()) {
       setError("Enter an email to switch profiles.");
+      setCanSwitchExisting(false);
       return;
     }
 
-    setBusy(true);
-    setError("");
-    setActiveUserEmail(form.email.trim().toLowerCase());
-    setLoading(true);
-    await loadProfile();
-    setBusy(false);
-    toast({
-      title: "Profile switched",
-      description: `Active profile email: ${form.email.trim().toLowerCase()}`,
-    });
+    try {
+      setBusy(true);
+      setError("");
+      setCanSwitchExisting(false);
+      setActiveUserEmail(form.email.trim().toLowerCase());
+      setLoading(true);
+      await loadProfile();
+      toast({
+        title: "Profile switched",
+        description: `Active profile email: ${form.email.trim().toLowerCase()}`,
+      });
+    } catch (error) {
+      console.error("Switch failed:", error);
+      setError("Could not switch to this email yet. Make sure the account already exists.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   if (loading) {
@@ -229,7 +250,19 @@ export default function Profile() {
 
         {error && (
           <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            {error}
+            <p>{error}</p>
+            {canSwitchExisting && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="mt-3 border-amber-300 bg-white text-amber-900 hover:bg-amber-100"
+                onClick={handleSwitch}
+                disabled={busy}
+              >
+                Switch to existing account
+              </Button>
+            )}
           </div>
         )}
 
