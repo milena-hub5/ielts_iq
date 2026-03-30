@@ -1,14 +1,14 @@
 const PROD_API_URL = "https://ieltsiq-production.up.railway.app/api";
 
 function resolveApiUrl() {
+  if (typeof window !== "undefined" && window.location.hostname.endsWith("vercel.app")) {
+    return PROD_API_URL;
+  }
+
   const configuredUrl = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
   if (configuredUrl) {
     return configuredUrl;
-  }
-
-  if (typeof window !== "undefined" && window.location.hostname.endsWith("vercel.app")) {
-    return PROD_API_URL;
   }
 
   return "http://127.0.0.1:5050/api";
@@ -39,6 +39,14 @@ async function apiFetch(path: string, options: RequestInit = {}) {
   if (!res.ok) {
     const text = await res.text();
     throw new Error(text || `Request failed for ${path}`);
+  }
+
+  const contentType = res.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    const text = await res.text();
+    throw new Error(
+      `Expected JSON from ${API_URL}${path}, received ${contentType || "unknown content type"}: ${text.slice(0, 120)}`,
+    );
   }
 
   return res.json();

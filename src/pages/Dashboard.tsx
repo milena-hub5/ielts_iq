@@ -125,13 +125,17 @@ export default function Dashboard() {
 
   const loadDashboard = async () => {
     try {
-      const [dashboard, profileData] = await Promise.all([
-        getDashboardData(),
-        getProfileData(),
-      ]);
+      const dashboard = await getDashboardData();
       setData(dashboard);
       setSavedWords(dashboard.recentWords || []);
-      setProfile(profileData);
+
+      try {
+        const profileData = await getProfileData();
+        setProfile(profileData);
+      } catch (profileError) {
+        console.error("Profile load error:", profileError);
+        setProfile(null);
+      }
     } catch (e) {
       console.error("Dashboard load error:", e);
     } finally {
