@@ -7,6 +7,7 @@ import {
   ListChecks,
   GraduationCap,
   Grid3X3,
+  BookOpenCheck,
 } from "lucide-react";
 import { getActiveUserEmail } from "@/lib/api";
 
@@ -28,8 +29,15 @@ export default function AppLayout() {
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 lg:flex-row lg:px-6">
         <aside className="w-full shrink-0 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm lg:w-[250px]">
           <div className="px-2 py-3">
-            <p className="text-lg font-semibold tracking-tight">IELTS IQ</p>
-            <p className="mt-1 text-sm text-slate-500">Learning app</p>
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-sm">
+                <BookOpenCheck size={22} />
+              </div>
+              <div>
+                <p className="text-lg font-semibold tracking-tight">IELTS IQ</p>
+                <p className="mt-1 text-sm text-slate-500">Exam prep companion</p>
+              </div>
+            </div>
             <div className="mt-4 rounded-2xl bg-slate-50 px-3 py-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
                 Active Profile
